@@ -2,6 +2,12 @@
 
 Diplomová práce implementující metodiku pro hodnocení DataOps platforem pomocí vícekriteriální rozhodovací analýzy (TOPSIS).
 
+## 🚀 Live Demo
+
+**Vyzkoušejte aplikaci online:** [https://dataops-comparison-thesis.streamlit.app/](https://dataops-comparison-thesis.streamlit.app/)
+
+Aplikace je nasazená a plně funkční - můžete ji hned použít bez instalace.
+
 ## Struktura projektu
 
 ```
@@ -115,7 +121,9 @@ pip install --upgrade -r requirements.txt
 
 ## Hostování aplikace
 
-Aplikace je připravená pro hosting na Streamlit Cloud:
+**Aplikace je již nasazená a dostupná zde:** [https://dataops-comparison-thesis.streamlit.app/](https://dataops-comparison-thesis.streamlit.app/)
+
+Pokud chcete nasadit vlastní instanci:
 
 1. Nahrajte projekt na GitHub
 2. Jděte na [share.streamlit.io](https://share.streamlit.io/)
