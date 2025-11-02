@@ -1,6 +1,17 @@
--- TPC-H Query 6: Forecasting Revenue Change
--- Quantifies revenue increase from eliminating discounts on a subset of orders
+-- Query 6: Promotion Effect
+-- Forecasting Revenue Change Query
 
--- Doplňte standardní TPC-H Query 6
--- Viz: http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v2.17.1.pdf
-
+CREATE OR REPLACE TABLE "Promotion_Effect" AS
+select
+	100.00 * sum(case
+		when p_type like 'PROMO%'
+			then l_extendedprice * (1 - l_discount)
+		else 0
+	end) / sum(l_extendedprice * (1 - l_discount)) as promo_revenue
+from
+	lineitem,
+	part
+where
+	l_partkey = p_partkey
+	and l_shipdate >= date '1995-09-01'
+	AND l_shipdate < DATEADD(month, 1, '1995-09-01');

@@ -1,6 +1,28 @@
--- TPC-H Query 18: Large Volume Customer
--- Identifies large volume customers and their orders
+-- Query 18: Local Supplier Volume
+-- Large Volume Customer Query
 
--- Doplňte standardní TPC-H Query 18
--- Viz: http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v2.17.1.pdf
-
+CREATE OR REPLACE TABLE "Local_Supplier_Volume" AS
+select
+	n_name,
+	sum(l_extendedprice * (1 - l_discount)) as revenue
+from
+	customer,
+	orders,
+	lineitem,
+	supplier,
+	nation,
+	region
+where
+	c_custkey = o_custkey
+	and l_orderkey = o_orderkey
+	and l_suppkey = s_suppkey
+	and c_nationkey = s_nationkey
+	and s_nationkey = n_nationkey
+	and n_regionkey = r_regionkey
+	and r_name = 'ASIA'
+	and o_orderdate >= date '1994-01-01'
+	AND o_orderdate < DATEADD(year, 1, '1994-01-01')
+group by
+	n_name
+order by
+	revenue desc;

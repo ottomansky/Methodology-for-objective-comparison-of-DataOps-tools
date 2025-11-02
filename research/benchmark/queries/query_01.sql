@@ -1,25 +1,25 @@
--- TPC-H Query 1: Pricing Summary Report
--- Measures revenue and quantity metrics by line item status and shipping priority
+-- Query 1: Returned Item Summary
+-- Pricing Summary Report
 
+CREATE OR REPLACE TABLE "Returned_Item_Summary" AS
 SELECT
-    l_returnflag,
-    l_linestatus,
-    SUM(l_quantity) AS sum_qty,
-    SUM(l_extendedprice) AS sum_base_price,
-    SUM(l_extendedprice * (1 - l_discount)) AS sum_disc_price,
-    SUM(l_extendedprice * (1 - l_discount) * (1 + l_tax)) AS sum_charge,
-    AVG(l_quantity) AS avg_qty,
-    AVG(l_extendedprice) AS avg_price,
-    AVG(l_discount) AS avg_disc,
-    COUNT(*) AS count_order
+	L_RETURNFLAG,
+	L_LINESTATUS,
+	SUM(L_QUANTITY) AS SUM_QTY,
+	SUM(L_EXTENDEDPRICE) AS SUM_BASE_PRICE,
+	SUM(L_EXTENDEDPRICE * (1 - L_DISCOUNT)) AS SUM_DISC_PRICE,
+	SUM(L_EXTENDEDPRICE * (1 - L_DISCOUNT) * (1 + L_TAX)) AS SUM_CHARGE,
+	AVG(L_QUANTITY) AS AVG_QTY,
+	AVG(L_EXTENDEDPRICE) AS AVG_PRICE,
+	AVG(L_DISCOUNT) AS AVG_DISC,
+	COUNT(*) AS COUNT_ORDER
 FROM
-    lineitem
+	lineitem
 WHERE
-    l_shipdate <= DATE '1998-12-01' - INTERVAL '90' DAY
+	L_SHIPDATE <= DATEADD(day, 90, '1998-12-01')
 GROUP BY
-    l_returnflag,
-    l_linestatus
+	L_RETURNFLAG,
+	L_LINESTATUS
 ORDER BY
-    l_returnflag,
-    l_linestatus;
-
+	L_RETURNFLAG,
+	L_LINESTATUS;

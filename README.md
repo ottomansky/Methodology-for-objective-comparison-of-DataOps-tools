@@ -5,9 +5,6 @@ Diplomová práce implementující metodiku pro hodnocení DataOps platforem pom
 ## Struktura projektu
 
 ```
-├── thesis/                          Diplomová práce
-│   └── diploma_thesis.pdf          Finální PDF práce (doplnit před odevzdáním)
-│
 ├── app/                             Webová aplikace (Streamlit)
 │   ├── app.py                      Hlavní aplikace
 │   ├── requirements.txt            Python závislosti
@@ -30,14 +27,10 @@ Diplomová práce implementující metodiku pro hodnocení DataOps platforem pom
 │       └── queries/                22 TPC-H SQL dotazů (query_01.sql - query_22.sql)
 │
 ├── README.md                        Dokumentace projektu (tento soubor)
-├── QUICKSTART.md                    Rychlý start
-├── TODO.md                          Co zbývá doplnit
 └── LICENSE                          MIT License
 ```
 
 ### Popis složek
-
-**thesis/** - Kompletní text diplomové práce ve formátu PDF
 
 **app/** - Funkční webová aplikace implementující TOPSIS metodiku
 - Spustitelná lokálně i nasaditelná na Streamlit Cloud
@@ -53,7 +46,7 @@ Diplomová práce implementující metodiku pro hodnocení DataOps platforem pom
 
 Tato diplomová práce navrhuje metodiku pro objektivní srovnání DataOps nástrojů. Kombinuje kvalitativní výzkum (rozhovory s odborníky) a kvantitativní měření (benchmark) s implementací interaktivní aplikace.
 
-**Hodnoticí rámec:**
+**Hodnoticí metodika:**
 - 5 dimenzí (Kvalita dat, Obchodní dopad, Technická efektivita, CI/CD, UX)
 - 20 metrik
 - 3 platformy (Keboola, Microsoft Fabric, Databricks)
@@ -62,27 +55,75 @@ Tato diplomová práce navrhuje metodiku pro objektivní srovnání DataOps nás
 
 ## Rychlý start
 
-### Lokální spuštění
+### 1. Instalace závislostí
 
 ```bash
 cd app
 pip install -r requirements.txt
+```
+
+### 2. Spuštění aplikace
+
+```bash
 streamlit run app.py
 ```
 
-Aplikace se otevře na `http://localhost:8501`
+Aplikace se automaticky otevře na `http://localhost:8501`
 
-### Hostování a sdílení
+### 3. Zastavení
 
-Aplikace je připravena pro hosting na Streamlit Cloud. Každý uživatel má svou vlastní session - data se nepřekrývají.
+V terminálu stiskněte `Ctrl + C`
 
-Viz `HOSTING.md` pro detailní návod na nasazení.
+## Použití aplikace
 
-### Struktura aplikace
+### Režim 1: Průměrné váhy z výzkumu
 
-- **Režim 1**: Průměrné váhy z výzkumu (rychlé hodnocení)
-- **Režim 2**: Vlastní kalibrace (přizpůsobené priority)
-- **Export**: CSV a PDF zprávy
+1. Klikněte na "Průměrné váhy z výzkumu"
+2. Prohlédněte si výsledky a vizualizace
+3. Stáhněte CSV nebo PDF export
+
+**Použití:** Rychlé hodnocení pomocí vah zjištěných z expertních rozhovorů. Reprodukuje výsledky diplomové práce.
+
+### Režim 2: Vlastní kalibrace
+
+1. Klikněte na "Vlastní kalibrace"
+2. Ohodnoťte každou z 20 metrik na škále 1-5
+3. Rozdělte 100 bodů mezi 5 dimenzí podle důležitosti
+4. Klikněte na "Vypočítat TOPSIS skóre"
+5. Stáhněte výsledky
+
+**Použití:** Přizpůsobení hodnocení specifickým požadavkům vaší organizace.
+
+## Řešení problémů
+
+### Port je obsazený
+```bash
+streamlit run app.py --server.port 8502
+```
+
+### Chyba při importu
+```bash
+# Zkontrolujte, že jste ve složce app/
+cd app
+streamlit run app.py
+```
+
+### Reinstalace závislostí
+```bash
+pip install --upgrade -r requirements.txt
+```
+
+## Hostování aplikace
+
+Aplikace je připravená pro hosting na Streamlit Cloud:
+
+1. Nahrajte projekt na GitHub
+2. Jděte na [share.streamlit.io](https://share.streamlit.io/)
+3. Připojte GitHub repozitář
+4. Nastavte cestu: `app/app.py`
+5. Klikněte "Deploy"
+
+**Důležité**: Každý uživatel má svou vlastní session. Data se nepřekrývají.
 
 ## Výsledky výzkumu
 
@@ -125,18 +166,6 @@ Viz `HOSTING.md` pro detailní návod na nasazení.
 - **Pandas, NumPy** - zpracování dat
 - **Plotly** - interaktivní grafy
 - **ReportLab** - PDF export
-
-## Co doplnit před odevzdáním
-
-### Kritické
-1. **thesis/diploma_thesis.pdf** - Vaše diplomová práce
-2. **Osobní informace** - Aktualizovat v tomto README (níže)
-3. **research/interviews/transcripts/** - Anonymizované přepisy (min. 3)
-4. **research/benchmark/results/** - CSV soubory s naměřenými časy
-
-### Doporučené
-5. **research/interviews/calibration.xlsx** - Data z kalibračního cvičení
-6. **research/benchmark/queries/** - SQL dotazy (nebo odkaz na TPC-H)
 
 ## Použití metodiky
 

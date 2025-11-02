@@ -1,6 +1,26 @@
--- TPC-H Query 16: Parts/Supplier Relationship
--- Counts number of suppliers for each part type
+-- Query 16: Shipping Priority
+-- Parts/Supplier Relationship Query
 
--- Doplňte standardní TPC-H Query 16
--- Viz: http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v2.17.1.pdf
-
+CREATE OR REPLACE TABLE "Shipping_Priority" AS
+select
+	l_orderkey,
+	sum(l_extendedprice * (1 - l_discount)) as revenue,
+	o_orderdate,
+	o_shippriority
+from
+	customer,
+	orders,
+	lineitem
+where
+	c_mktsegment = 'BUILDING'
+	and c_custkey = o_custkey
+	and l_orderkey = o_orderkey
+	and o_orderdate < date '1995-03-15'
+	and l_shipdate > date '1995-03-15'
+group by
+	l_orderkey,
+	o_orderdate,
+	o_shippriority
+order by
+	revenue desc,
+	o_orderdate limit 10;

@@ -1,6 +1,21 @@
--- TPC-H Query 9: Product Type Profit Measure
--- Determines profit for different product types per year
+-- Query 9: Small Quantity Order Revenue
+-- Product Type Profit Measure Query
 
--- Doplňte standardní TPC-H Query 9
--- Viz: http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v2.17.1.pdf
-
+CREATE OR REPLACE TABLE "Small_Quantity_Order_Revenue" AS
+select
+	sum(l_extendedprice) / 7.0 as avg_yearly
+from
+	lineitem,
+	part
+where
+	p_partkey = l_partkey
+	and p_brand = 'Brand#23'
+	and p_container = 'MED BOX'
+	and l_quantity < (
+		select
+			0.2 * avg(l_quantity)
+		from
+			lineitem
+		where
+			l_partkey = p_partkey
+	);

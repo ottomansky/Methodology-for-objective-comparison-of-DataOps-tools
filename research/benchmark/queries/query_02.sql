@@ -1,6 +1,35 @@
--- TPC-H Query 2: Minimum Cost Supplier
--- Finds suppliers who can supply a part at minimum cost
+-- Query 2: Top Returned Customers
+-- Minimum Cost Supplier Query
 
--- Doplňte standardní TPC-H Query 2
--- Viz: http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v2.17.1.pdf
-
+CREATE OR REPLACE TABLE "Top_Returned_Customers" AS
+select
+	c_custkey,
+	c_name,
+	sum(l_extendedprice * (1 - l_discount)) as revenue,
+	c_acctbal,
+	n_name,
+	c_address,
+	c_phone,
+	c_comment
+from
+	customer,
+	orders,
+	lineitem,
+	nation
+where
+	c_custkey = o_custkey
+	and l_orderkey = o_orderkey
+	and o_orderdate >= date '1993-10-01'
+	AND o_orderdate < DATEADD(month, 3, '1993-10-01')
+	and l_returnflag = 'R'
+	and c_nationkey = n_nationkey
+group by
+	c_custkey,
+	c_name,
+	c_acctbal,
+	c_phone,
+	n_name,
+	c_address,
+	c_comment
+order by
+	revenue desc limit 20;

@@ -1,6 +1,32 @@
--- TPC-H Query 4: Order Priority Checking
--- Counts orders by priority for orders with at least one late lineitem
+-- Query 4: Shipping Modes Priority
+-- Order Priority Checking Query
 
--- Doplňte standardní TPC-H Query 4
--- Viz: http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v2.17.1.pdf
-
+CREATE OR REPLACE TABLE "Shipping_Modes_Priority" AS
+select
+	l_shipmode,
+	sum(case
+		when o_orderpriority = '1-URGENT'
+			or o_orderpriority = '2-HIGH'
+			then 1
+		else 0
+	end) as high_line_count,
+	sum(case
+		when o_orderpriority <> '1-URGENT'
+			and o_orderpriority <> '2-HIGH'
+			then 1
+		else 0
+	end) as low_line_count
+from
+	orders,
+	lineitem
+where
+	o_orderkey = l_orderkey
+	and l_shipmode in ('MAIL', 'SHIP')
+	and l_commitdate < l_receiptdate
+	and l_shipdate < l_commitdate
+	and l_receiptdate >= date '1994-01-01'
+	AND o_orderdate < DATEADD(year, 1, '1994-01-01')
+group by
+	l_shipmode
+order by
+	l_shipmode;

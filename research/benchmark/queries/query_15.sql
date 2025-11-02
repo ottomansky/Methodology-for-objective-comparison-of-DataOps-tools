@@ -1,6 +1,41 @@
--- TPC-H Query 15: Top Supplier
--- Determines top supplier based on revenue in a given period
+-- Query 15: Global Sales Opportunity
+-- Top Supplier Query (Create View)
 
--- Doplňte standardní TPC-H Query 15
--- Viz: http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v2.17.1.pdf
-
+CREATE OR REPLACE TABLE "Global_Sales_Opportunity" AS
+select
+	cntrycode,
+	count(*) as numcust,
+	sum(c_acctbal) as totacctbal
+from
+	(
+		select
+      SUBSTRING(c_phone, 1, 2) AS cntrycode,
+			c_acctbal
+		from
+			customer
+		where
+          SUBSTRING(c_phone, 1, 2) IN
+				('13', '31', '23', '29', '30', '18', '17')
+			and c_acctbal > (
+				select
+					avg(c_acctbal)
+				from
+					customer
+				where
+					c_acctbal > 0.00
+                    AND SUBSTRING(c_phone, 1, 2) IN
+						('13', '31', '23', '29', '30', '18', '17')
+			)
+			and not exists (
+				select
+					*
+				from
+					orders
+				where
+					o_custkey = c_custkey
+			)
+	) as custsale
+group by
+	cntrycode
+order by
+	cntrycode;
