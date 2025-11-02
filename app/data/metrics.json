@@ -1,0 +1,92 @@
+{
+  "Technical_Efficiency": {
+    "Pipeline_Speed": {
+      "name": "Rychlost zpracování dat",
+      "description": "Čas potřebný k načtení, transformaci a uložení dat"
+    },
+    "Stability": {
+      "name": "Stabilita systému",
+      "description": "Spolehlivost běhů pipeline a dostupnost platformy"
+    },
+    "Scalability": {
+      "name": "Škálovatelnost",
+      "description": "Schopnost zvládat rostoucí objem dat a složitost"
+    },
+    "Observability": {
+      "name": "Monitorování",
+      "description": "Viditelnost do běhu pipeline a výkonu systému"
+    }
+  },
+  "Data_Quality": {
+    "Data_Lineage": {
+      "name": "Data Lineage",
+      "description": "Sledování toku dat od zdroje po cíl včetně transformací"
+    },
+    "Quality_Tests": {
+      "name": "Testování kvality dat",
+      "description": "Vestavěné možnosti pro validaci a kontrolu kvality"
+    },
+    "RBAC": {
+      "name": "Řízení přístupů (RBAC)",
+      "description": "Granulární kontrola přístupů k datům a operacím"
+    },
+    "Metadata_Management": {
+      "name": "Správa metadat",
+      "description": "Organizace a vyhledávání datových zdrojů přes metadata"
+    }
+  },
+  "CI_CD": {
+    "Git_Integration": {
+      "name": "Integrace s Git",
+      "description": "Nativní podpora verzování konfigurace přes Git"
+    },
+    "API_CLI": {
+      "name": "API / CLI přístup",
+      "description": "Programový přístup k funkcím platformy"
+    },
+    "Automated_Tests": {
+      "name": "Automatizované testy",
+      "description": "Podpora pro automatické testování pipeline"
+    },
+    "Reproducibility": {
+      "name": "Reprodukovatelnost",
+      "description": "Schopnost spolehlivě zopakovat běh pipeline"
+    }
+  },
+  "User_Experience": {
+    "Onboarding": {
+      "name": "Onboarding",
+      "description": "Snadnost začátku a učení se platformě"
+    },
+    "Documentation": {
+      "name": "Kvalita dokumentace",
+      "description": "Úplnost a srozumitelnost dokumentace"
+    },
+    "Debugging": {
+      "name": "Debugging",
+      "description": "Nástroje pro řešení problémů s pipeline"
+    },
+    "Collaboration": {
+      "name": "Spolupráce",
+      "description": "Nástroje pro týmovou spolupráci"
+    }
+  },
+  "Business_Impact": {
+    "Time_to_Value": {
+      "name": "Čas k hodnotě",
+      "description": "Rychlost dodání hodnoty pomocí platformy"
+    },
+    "TCO": {
+      "name": "Celkové náklady (TCO)",
+      "description": "Kompletní náklady včetně licencí a provozu"
+    },
+    "Vendor_Lock_in": {
+      "name": "Vendor Lock-in",
+      "description": "Obtížnost migrace na jinou platformu"
+    },
+    "Auditability": {
+      "name": "Auditovatelnost",
+      "description": "Podpora pro audit trail a compliance"
+    }
+  }
+}

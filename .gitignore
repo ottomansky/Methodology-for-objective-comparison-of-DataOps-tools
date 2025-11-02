@@ -1,0 +1,104 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Data files (if sensitive)
+# Uncomment if you have sensitive data
+# DataApp/data/sensitive_*.csv
+
+# Logs
+*.log
+logs/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Docker
+*.dockerignore
+
+# Backup files
+*.bak
+*.backup
+
+# Reports (generated)
+reports/
+exports/
+
+# LaTeX (for thesis)
+thesis/latex_source/*.aux
+thesis/latex_source/*.log
+thesis/latex_source/*.out
+thesis/latex_source/*.toc
+thesis/latex_source/*.bbl
+thesis/latex_source/*.blg
+thesis/latex_source/*.synctex.gz
+
+# Research data (anonymized versions should be committed)
+research_artifacts/transcripts/raw/
+
+# Benchmark results (raw data)
+# Keep aggregated results, exclude large raw datasets
+benchmark/raw_results/*.parquet
+benchmark/raw_results/large_*.csv
+
