@@ -11,7 +11,7 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter, A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, PageBreak
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, PageBreak, KeepTogether
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 
 
@@ -256,9 +256,10 @@ def generate_pdf_report(topsis_results: Dict,
     
     elements.append(Spacer(1, 0.3*inch))
     
-    # TOPSIS Results Table
-    elements.append(Paragraph("<b>Detailed TOPSIS Metrics</b>", subheading_style))
-    elements.append(Spacer(1, 0.1*inch))
+    # TOPSIS Results Table - Keep together with title
+    topsis_table_elements = []
+    topsis_table_elements.append(Paragraph("<b>Detailed TOPSIS Metrics</b>", subheading_style))
+    topsis_table_elements.append(Spacer(1, 0.1*inch))
     
     # Explanation of metrics
     metrics_explanation = """
@@ -266,8 +267,8 @@ def generate_pdf_report(topsis_results: Dict,
     <b>D-</b> represents the distance to the Negative Ideal Solution (higher is better). 
     The TOPSIS score is calculated as D-/(D+ + D-), where scores closer to 1.0 indicate better overall performance.
     """
-    elements.append(Paragraph(metrics_explanation, body_style))
-    elements.append(Spacer(1, 0.15*inch))
+    topsis_table_elements.append(Paragraph(metrics_explanation, body_style))
+    topsis_table_elements.append(Spacer(1, 0.15*inch))
     
     d_plus = topsis_results['d_plus']
     d_minus = topsis_results['d_minus']
@@ -301,7 +302,8 @@ def generate_pdf_report(topsis_results: Dict,
         ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
     ]))
     
-    elements.append(table)
+    topsis_table_elements.append(table)
+    elements.append(KeepTogether(topsis_table_elements))
     elements.append(PageBreak())
     
     # Page 3: Dimension Analysis
@@ -316,7 +318,8 @@ def generate_pdf_report(topsis_results: Dict,
     elements.append(Paragraph(dim_intro, body_style))
     elements.append(Spacer(1, 0.2*inch))
     
-    # Dimension scores table
+    # Dimension scores table - Keep together
+    dim_table_elements = []
     dim_table_data = [['Dimension'] + [p.replace('_', ' ') for p in dimension_scores.columns]]
     for dimension in dimension_scores.index:
         row = [dimension.replace('_', ' ')]
@@ -342,19 +345,21 @@ def generate_pdf_report(topsis_results: Dict,
         ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
     ]))
     
-    elements.append(dim_table)
+    dim_table_elements.append(dim_table)
+    elements.append(KeepTogether(dim_table_elements))
     elements.append(Spacer(1, 0.3*inch))
     
-    # Dimension weights
-    elements.append(Paragraph("<b>Dimension Weights</b>", subheading_style))
-    elements.append(Spacer(1, 0.1*inch))
+    # Dimension weights - Keep together with title
+    weight_table_elements = []
+    weight_table_elements.append(Paragraph("<b>Dimension Weights</b>", subheading_style))
+    weight_table_elements.append(Spacer(1, 0.1*inch))
     
     weights_intro = """
     The following weights represent the relative importance assigned to each dimension in the final analysis. 
     These hierarchical weights are combined with individual metric weights to calculate the final TOPSIS scores.
     """
-    elements.append(Paragraph(weights_intro, body_style))
-    elements.append(Spacer(1, 0.15*inch))
+    weight_table_elements.append(Paragraph(weights_intro, body_style))
+    weight_table_elements.append(Spacer(1, 0.15*inch))
     
     weight_table_data = [['Dimension', 'Weight', 'Percentage']]
     for dimension, weight in dimension_weights.items():
@@ -380,7 +385,8 @@ def generate_pdf_report(topsis_results: Dict,
         ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
     ]))
     
-    elements.append(weight_table)
+    weight_table_elements.append(weight_table)
+    elements.append(KeepTogether(weight_table_elements))
     elements.append(PageBreak())
     
     # Page 4: Detailed Metric Breakdown
@@ -394,12 +400,14 @@ def generate_pdf_report(topsis_results: Dict,
     elements.append(Paragraph(metrics_intro, body_style))
     elements.append(Spacer(1, 0.25*inch))
     
-    # Group metrics by dimension
+    # Group metrics by dimension - Keep each table with its title
     for dimension in platform_scores['Dimension'].unique():
         dim_metrics = platform_scores[platform_scores['Dimension'] == dimension]
         
-        elements.append(Paragraph(f"<b>{dimension.replace('_', ' ')}</b>", subheading_style))
-        elements.append(Spacer(1, 0.1*inch))
+        # Create elements for this dimension table
+        dimension_table_elements = []
+        dimension_table_elements.append(Paragraph(f"<b>{dimension.replace('_', ' ')}</b>", subheading_style))
+        dimension_table_elements.append(Spacer(1, 0.1*inch))
         
         # Create table for this dimension
         metric_table_data = [['Metric'] + [p.replace('_', ' ') for p in 
@@ -430,7 +438,10 @@ def generate_pdf_report(topsis_results: Dict,
             ('BOTTOMPADDING', (0, 1), (-1, -1), 6),
         ]))
         
-        elements.append(metric_table)
+        dimension_table_elements.append(metric_table)
+        
+        # Add the table with its title as a single unit
+        elements.append(KeepTogether(dimension_table_elements))
         elements.append(Spacer(1, 0.2*inch))
     
     elements.append(PageBreak())
